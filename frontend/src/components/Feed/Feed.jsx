@@ -63,7 +63,7 @@ function Feed() {
         placeholder="Search posts..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full p-3 rounded-full bg-gray-900 outline-none text-white mb-4"
+        className="w-full p-3 rounded-full bg-gray-100 dark:bg-gray-900 outline-none text-black dark:text-white mb-4"
       />
 
       <CreatePost addPost={addPost} />

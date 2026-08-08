@@ -4,14 +4,14 @@ import RightSidebar from "../components/RightSidebar/RightSidebar";
 
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
       <div className="grid grid-cols-12 max-w-7xl mx-auto">
 
-        <div className="col-span-3 border-r border-gray-800">
+        <div className="col-span-3 border-r border-gray-200 dark:border-gray-800">
           <Sidebar />
         </div>
 
-        <div className="col-span-6 border-r border-gray-800">
+        <div className="col-span-6 border-r border-gray-200 dark:border-gray-800">
           <Outlet />
         </div>
 

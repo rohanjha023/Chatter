@@ -60,7 +60,7 @@ function PostCard({ post, onDelete }) {
   };
 
   return (
-    <div className="border-b border-gray-800 p-5">
+    <div className="border-b border-gray-200 dark:border-gray-800 p-5">
       <div className="flex gap-4">
         <img
           src={post.image}
@@ -71,7 +71,7 @@ function PostCard({ post, onDelete }) {
         <div className="flex-1">
           <h2 className="font-bold">{post.name}</h2>
 
-          <p className="text-gray-400">@{post.username}</p>
+          <p className="text-gray-600 dark:text-gray-400">@{post.username}</p>
 
           <p className="mt-3">{post.content}</p>
 
@@ -79,11 +79,11 @@ function PostCard({ post, onDelete }) {
             <img
               src={post.postImage}
               alt="Post"
-              className="mt-4 w-full rounded-2xl border border-gray-800 object-cover max-h-[450px]"
+              className="mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800 object-cover max-h-[450px]"
             />
           )}
 
-          <div className="flex justify-between mt-5 text-gray-400">
+          <div className="flex justify-between mt-5 text-gray-600 dark:text-gray-400">
             {/* Comment */}
             <button
               onClick={() => setShowComments(!showComments)}
@@ -132,7 +132,7 @@ function PostCard({ post, onDelete }) {
                   placeholder="Write a comment..."
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
-                  className="flex-1 bg-gray-900 rounded-lg p-2 outline-none"
+                  className="flex-1 bg-gray-100 dark:bg-gray-900 rounded-lg p-2 outline-none"
                 />
 
                 <button
@@ -145,7 +145,7 @@ function PostCard({ post, onDelete }) {
 
               <div className="mt-4 space-y-2">
                 {comments.map((comment, index) => (
-                  <div key={index} className="bg-gray-900 rounded-lg p-3">
+                  <div key={index} className="bg-gray-100 dark:bg-gray-900 rounded-lg p-3">
                     <p className="font-semibold text-blue-400">User</p>
 
                     <p>{comment}</p>

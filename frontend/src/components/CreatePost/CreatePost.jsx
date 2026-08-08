@@ -22,7 +22,7 @@ function CreatePost({ addPost }) {
   };
 
   return (
-    <div className="border-b border-gray-800 p-4">
+    <div className="border-b border-gray-200 dark:border-gray-800 p-4">
 
       <div className="flex gap-4">
 
@@ -35,7 +35,7 @@ function CreatePost({ addPost }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="What's happening?"
-          className="flex-1 bg-black outline-none resize-none text-lg"
+          className="flex-1 bg-white dark:bg-black outline-none resize-none text-lg"
           rows="3"
         />
 

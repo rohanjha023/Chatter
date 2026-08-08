@@ -1,6 +1,6 @@
 function Profile() {
   return (
-    <div className="text-white">
+    <div className="text-black dark:text-white">
 
       <div className="h-52 bg-gradient-to-r from-blue-600 to-purple-600"></div>
 
@@ -15,7 +15,7 @@ function Profile() {
           Rohan Kumar
         </h1>
 
-        <p className="text-gray-400">
+        <p className="text-gray-600 dark:text-gray-400">
           @rohan
         </p>
 
@@ -31,17 +31,17 @@ function Profile() {
 
           <div>
             <h2 className="text-2xl font-bold">35</h2>
-            <p className="text-gray-400">Posts</p>
+            <p className="text-gray-600 dark:text-gray-400">Posts</p>
           </div>
 
           <div>
             <h2 className="text-2xl font-bold">980</h2>
-            <p className="text-gray-400">Followers</p>
+            <p className="text-gray-600 dark:text-gray-400">Followers</p>
           </div>
 
           <div>
             <h2 className="text-2xl font-bold">250</h2>
-            <p className="text-gray-400">Following</p>
+            <p className="text-gray-600 dark:text-gray-400">Following</p>
           </div>
 
         </div>

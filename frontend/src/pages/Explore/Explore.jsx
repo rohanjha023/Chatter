@@ -11,7 +11,7 @@ function Explore() {
   ];
 
   return (
-    <div className="p-6 text-white">
+    <div className="p-6 text-black dark:text-white">
 
       <h1 className="text-3xl font-bold mb-8">
         Explore
@@ -22,13 +22,13 @@ function Explore() {
         {trends.map((trend, index) => (
           <div
             key={index}
-            className="bg-gray-900 rounded-xl p-5 hover:bg-gray-800 cursor-pointer"
+            className="bg-gray-100 dark:bg-gray-900 rounded-xl p-5 hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
           >
             <h2 className="text-xl font-bold">
               {trend}
             </h2>
 
-            <p className="text-gray-400 mt-2">
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
               {Math.floor(Math.random()*100)}K Posts
             </p>
 

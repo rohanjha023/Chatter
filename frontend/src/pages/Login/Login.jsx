@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 function Login() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black text-white">
-      <div className="w-[400px] bg-gray-900 p-8 rounded-xl shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black text-black dark:text-white">
+      <div className="w-[400px] bg-gray-100 dark:bg-gray-900 p-8 rounded-xl shadow-lg">
 
         <h1 className="text-4xl font-bold text-center text-blue-500 mb-8">
           Login
@@ -25,7 +25,7 @@ function Login() {
           Login
         </button>
 
-        <p className="text-center mt-5 text-gray-400">
+        <p className="text-center mt-5 text-gray-600 dark:text-gray-400">
           Don't have an account?
           <Link
             to="/register"

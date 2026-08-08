@@ -21,7 +21,7 @@ function SuggestedUsers() {
   ];
 
   return (
-    <div className="bg-gray-900 rounded-xl p-5 mt-6">
+    <div className="bg-gray-100 dark:bg-gray-900 rounded-xl p-5 mt-6">
       <h2 className="text-xl font-bold mb-5">Who to Follow</h2>
 
       {users.map((user) => (
@@ -37,7 +37,7 @@ function SuggestedUsers() {
 
             <div>
               <h3>{user.name}</h3>
-              <p className="text-gray-400">{user.username}</p>
+              <p className="text-gray-600 dark:text-gray-400">{user.username}</p>
             </div>
           </div>
 
