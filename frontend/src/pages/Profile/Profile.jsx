@@ -10,7 +10,7 @@ function Profile() {
   const [displayName, setDisplayName] = useState(user?.displayName || "");
   const [bio, setBio] = useState(user?.bio || "");
   const [avatar, setAvatar] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState(user?.avatarUrl || "https://i.pravatar.cc/150?img=10");
+  const [avatarPreview, setAvatarPreview] = useState(user?.avatarUrl || "https://i.pravatar.cc/150?img=99");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [posts, setPosts] = useState([]);
@@ -91,7 +91,7 @@ function Profile() {
         {/* Avatar */}
         <div className="relative -mt-24 inline-block">
           <img
-            src={user?.avatarUrl || "https://i.pravatar.cc/150?img=10"}
+            src={user?.avatarUrl || "https://i.pravatar.cc/150?img=99"}
             alt="Profile Avatar"
             className="w-36 h-36 rounded-full border-4 border-white dark:border-black object-cover shadow-lg"
           />
@@ -104,7 +104,7 @@ function Profile() {
               setDisplayName(user?.displayName || "");
               setBio(user?.bio || "");
               setAvatar(null);
-              setAvatarPreview(user?.avatarUrl || "https://i.pravatar.cc/150?img=10");
+              setAvatarPreview(user?.avatarUrl || "https://i.pravatar.cc/150?img=99");
               setErrors({});
               setIsEditing(true);
             }}

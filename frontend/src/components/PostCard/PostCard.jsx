@@ -59,7 +59,7 @@ function PostCard({ post, onDelete }) {
     }
   };
 
-  const avatar = post.author?.avatarUrl || post.image || "https://i.pravatar.cc/150?img=1";
+  const avatar = post.author?.avatarUrl || post.image || "https://i.pravatar.cc/150?img=99";
   const name = post.author?.displayName || post.name || "Anonymous";
   const username = post.author?.username || post.username || "anonymous";
   const postImage = post.images?.[0] || post.postImage;
