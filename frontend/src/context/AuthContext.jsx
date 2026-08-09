@@ -46,6 +46,18 @@ export const AuthProvider = ({ children }) => {
     await axios.post('/api/auth/register', { username, email, password, displayName });
   };
 
+  const updateProfile = async (formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.put('/api/users/profile', formData, config);
+    setUser(data);
+    return data;
+  };
+
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -53,7 +65,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout, updateProfile }}>
       {!loading && children}
     </AuthContext.Provider>
   );
