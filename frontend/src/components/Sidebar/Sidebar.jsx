@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { FaHome, FaHashtag, FaBell, FaBookmark, FaUser, FaSun, FaMoon } from "react-icons/fa";
+import { FaHome, FaHashtag, FaBell, FaBookmark, FaUser, FaSun, FaMoon, FaSignOutAlt } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeContext";
+import { useAuth } from "../../context/AuthContext";
 
 function Sidebar() {
   const { theme, toggleTheme } = useTheme();
+  const { logout } = useAuth();
 
   return (
     <div className="h-screen sticky top-0 p-6">
@@ -75,6 +77,14 @@ function Sidebar() {
               <span>Dark Mode</span>
             </>
           )}
+        </button>
+        
+        <button
+          onClick={logout}
+          className="mt-4 flex items-center justify-center gap-3 w-full py-3 rounded-full border border-gray-200 dark:border-gray-800 hover:bg-red-50 hover:text-red-500 hover:border-red-500 dark:hover:bg-red-900/20 dark:hover:text-red-500 dark:hover:border-red-500 transition text-gray-500 dark:text-gray-400"
+        >
+          <FaSignOutAlt />
+          <span>Logout</span>
         </button>
       </div>
     </div>
