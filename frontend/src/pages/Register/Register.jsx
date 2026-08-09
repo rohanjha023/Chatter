@@ -16,11 +16,20 @@ function Register() {
     e.preventDefault();
 
     // Strict Validations
+    if (displayName.trim().length < 2) {
+      return toast.error("Full Name must be at least 2 characters long");
+    }
+    if (!/^[a-zA-Z\s]+$/.test(displayName)) {
+      return toast.error("Full Name can only contain letters and spaces");
+    }
     if (username.length < 3) {
       return toast.error("Username must be at least 3 characters long");
     }
     if (!/^[a-zA-Z0-9_]+$/.test(username)) {
       return toast.error("Username can only contain letters, numbers, and underscores");
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return toast.error("Please enter a valid email address");
     }
     if (password.length < 6) {
       return toast.error("Password must be at least 6 characters long");
