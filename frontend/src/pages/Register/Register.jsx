@@ -1,24 +1,37 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 function Register() {
   const [displayName, setDisplayName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Strict Validations
+    if (username.length < 3) {
+      return toast.error("Username must be at least 3 characters long");
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      return toast.error("Username can only contain letters, numbers, and underscores");
+    }
+    if (password.length < 6) {
+      return toast.error("Password must be at least 6 characters long");
+    }
+
     try {
       await register(username, email, password, displayName);
+      toast.success("Registration successful!");
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
+      toast.error(err.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -28,8 +41,6 @@ function Register() {
         <h1 className="text-4xl font-bold text-center text-blue-500 mb-8">
           Register
         </h1>
-
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <input

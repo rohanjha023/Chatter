@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -14,9 +14,10 @@ function Login() {
     e.preventDefault();
     try {
       await login(email, password);
+      toast.success("Successfully logged in!");
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      toast.error(err.response?.data?.message || "Invalid credentials");
     }
   };
 
@@ -26,8 +27,6 @@ function Login() {
         <h1 className="text-4xl font-bold text-center text-blue-500 mb-8">
           Login
         </h1>
-
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit}>
           <input
