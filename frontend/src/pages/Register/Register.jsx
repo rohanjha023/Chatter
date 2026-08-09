@@ -24,7 +24,7 @@ function Register() {
       else if (value && !/^[a-zA-Z0-9_]+$/.test(value)) errorMsg = "Only letters, numbers, and underscores allowed";
     }
     if (name === "email") {
-      if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) errorMsg = "Invalid email format";
+      if (value && !/^(?=[^@]*[a-zA-Z])[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) errorMsg = "Email must contain letters before @";
     }
     if (name === "password") {
       if (value.length > 0 && value.length < 6) errorMsg = "At least 6 characters required";
@@ -55,8 +55,8 @@ function Register() {
     if (!/^[a-zA-Z0-9_]+$/.test(username)) {
       return toast.error("Username can only contain letters, numbers, and underscores");
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return toast.error("Please enter a valid email address");
+    if (!/^(?=[^@]*[a-zA-Z])[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      return toast.error("Email must contain letters before @");
     }
     if (password.length < 6) {
       return toast.error("Password must be at least 6 characters long");
