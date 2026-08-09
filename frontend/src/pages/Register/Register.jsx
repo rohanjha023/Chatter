@@ -64,8 +64,8 @@ function Register() {
 
     try {
       await register(username, email, password, displayName);
-      toast.success("Registration successful!");
-      navigate("/");
+      toast.success("Registration successful! Please login.");
+      navigate("/login");
     } catch (err) {
       toast.error(err.response?.data?.message || "Something went wrong");
     }

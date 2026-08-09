@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import CreatePost from "../CreatePost/CreatePost";
 import PostCard from "../PostCard/PostCard";
 
@@ -32,6 +33,7 @@ const initialPosts = [
 function Feed() {
   const [posts, setPosts] = useState(initialPosts);
   const [search, setSearch] = useState("");
+  const { user } = useAuth();
 
   const addPost = (text, image) => {
     // Agar text bhi nahi aur image bhi nahi hai to post mat banao
@@ -39,10 +41,10 @@ function Feed() {
 
     const newPost = {
       id: Date.now(),
-      name: "Rohan Kumar",
-      username: "rohan",
+      name: user?.displayName || "Anonymous",
+      username: user?.username || "anonymous",
       content: text,
-      image: "https://i.pravatar.cc/150?img=1",
+      image: user?.avatarUrl || "https://i.pravatar.cc/150?img=1",
       postImage: image || null,
       isOwnPost: true,
     };
