@@ -58,6 +58,17 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
+  const followUser = async (userId) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.put(`/api/users/follow/${userId}`, {}, config);
+    setUser(data.currentUser);
+    return data;
+  };
+
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -65,7 +76,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, logout, updateProfile, followUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );

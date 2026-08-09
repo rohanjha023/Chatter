@@ -107,11 +107,11 @@ function Profile() {
             <p className="text-gray-500 dark:text-gray-400">Posts</p>
           </div>
           <div>
-            <h2 className="text-2xl font-bold">0</h2>
+            <h2 className="text-2xl font-bold">{user?.followers?.length || 0}</h2>
             <p className="text-gray-500 dark:text-gray-400">Followers</p>
           </div>
           <div>
-            <h2 className="text-2xl font-bold">0</h2>
+            <h2 className="text-2xl font-bold">{user?.following?.length || 0}</h2>
             <p className="text-gray-500 dark:text-gray-400">Following</p>
           </div>
         </div>
