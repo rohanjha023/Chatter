@@ -8,9 +8,36 @@ function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  const validateField = (name, value) => {
+    let errorMsg = "";
+    if (name === "displayName") {
+      if (value.trim().length > 0 && value.trim().length < 2) errorMsg = "At least 2 characters required";
+      else if (value && !/^[a-zA-Z\s]+$/.test(value)) errorMsg = "Only letters and spaces allowed";
+    }
+    if (name === "username") {
+      if (value.length > 0 && value.length < 3) errorMsg = "At least 3 characters required";
+      else if (value && !/^[a-zA-Z0-9_]+$/.test(value)) errorMsg = "Only letters, numbers, and underscores allowed";
+    }
+    if (name === "email") {
+      if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) errorMsg = "Invalid email format";
+    }
+    if (name === "password") {
+      if (value.length > 0 && value.length < 6) errorMsg = "At least 6 characters required";
+    }
+    setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+    return errorMsg;
+  };
+
+  const handleChange = (setter, name) => (e) => {
+    const val = e.target.value;
+    setter(val);
+    validateField(name, val);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,46 +78,58 @@ function Register() {
           Register
         </h1>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none mb-4 focus:ring-2 focus:ring-blue-500"
-            required
-          />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div>
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={displayName}
+              onChange={handleChange(setDisplayName, "displayName")}
+              className={`w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none focus:ring-2 ${errors.displayName ? 'border-2 border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'}`}
+              required
+            />
+            {errors.displayName && <p className="text-red-500 text-xs mt-1 pl-1">{errors.displayName}</p>}
+          </div>
 
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none mb-4 focus:ring-2 focus:ring-blue-500"
-            required
-          />
+          <div>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={handleChange(setUsername, "username")}
+              className={`w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none focus:ring-2 ${errors.username ? 'border-2 border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'}`}
+              required
+            />
+            {errors.username && <p className="text-red-500 text-xs mt-1 pl-1">{errors.username}</p>}
+          </div>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none mb-4 focus:ring-2 focus:ring-blue-500"
-            required
-          />
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={handleChange(setEmail, "email")}
+              className={`w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none focus:ring-2 ${errors.email ? 'border-2 border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'}`}
+              required
+            />
+            {errors.email && <p className="text-red-500 text-xs mt-1 pl-1">{errors.email}</p>}
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none mb-6 focus:ring-2 focus:ring-blue-500"
-            required
-          />
+          <div className="mb-2">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handleChange(setPassword, "password")}
+              className={`w-full p-3 rounded-lg bg-gray-200 dark:bg-gray-800 outline-none focus:ring-2 ${errors.password ? 'border-2 border-red-500 focus:ring-red-500' : 'focus:ring-blue-500'}`}
+              required
+            />
+            {errors.password && <p className="text-red-500 text-xs mt-1 pl-1">{errors.password}</p>}
+          </div>
 
           <button 
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition"
+            className="w-full bg-blue-500 hover:bg-blue-600 p-3 rounded-lg font-bold transition mt-2"
           >
             Register
           </button>
