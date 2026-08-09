@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
+import axios from "axios";
+import PostCard from "../../components/PostCard/PostCard";
 
 function Profile() {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, token } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [displayName, setDisplayName] = useState(user?.displayName || "");
   const [bio, setBio] = useState(user?.bio || "");
@@ -11,6 +13,29 @@ function Profile() {
   const [avatarPreview, setAvatarPreview] = useState(user?.avatarUrl || "https://i.pravatar.cc/150?img=10");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [posts, setPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserPosts = async () => {
+      if (!token || !user?._id) return;
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const { data } = await axios.get(`/api/posts/user/${user._id}`, config);
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching user posts:", error);
+      } finally {
+        setPostsLoading(false);
+      }
+    };
+
+    fetchUserPosts();
+  }, [token, user?._id]);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -103,7 +128,7 @@ function Profile() {
         {/* Stats */}
         <div className="flex gap-12 mt-8 border-t border-gray-200 dark:border-gray-800 pt-6">
           <div>
-            <h2 className="text-2xl font-bold">0</h2>
+            <h2 className="text-2xl font-bold">{posts.length}</h2>
             <p className="text-gray-500 dark:text-gray-400">Posts</p>
           </div>
           <div>
@@ -115,6 +140,24 @@ function Profile() {
             <p className="text-gray-500 dark:text-gray-400">Following</p>
           </div>
         </div>
+      </div>
+
+      {/* User's Posts list */}
+      <div className="mt-4 border-t border-gray-200 dark:border-gray-800">
+        <h2 className="text-xl font-bold p-6 border-b border-gray-200 dark:border-gray-800">Posts</h2>
+        {postsLoading ? (
+          <div className="p-6 text-center text-gray-500 dark:text-gray-400">Loading posts...</div>
+        ) : posts.length === 0 ? (
+          <div className="p-6 text-center text-gray-500 dark:text-gray-400">You haven't posted anything yet.</div>
+        ) : (
+          posts.map(post => (
+            <PostCard 
+              key={post._id} 
+              post={post} 
+              onDelete={(id) => setPosts(posts.filter(p => p._id !== id))}
+            />
+          ))
+        )}
       </div>
 
       {/* Edit Profile Modal */}

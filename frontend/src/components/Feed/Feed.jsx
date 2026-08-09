@@ -1,62 +1,81 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import CreatePost from "../CreatePost/CreatePost";
 import PostCard from "../PostCard/PostCard";
-
-const initialPosts = [
-  {
-    id: 1,
-    name: "Rohan Kumar",
-    username: "rohan",
-    content: "Learning React 🚀",
-    image: "https://i.pravatar.cc/150?img=1",
-    postImage: "https://picsum.photos/600/350?random=1",
-  },
-  {
-    id: 2,
-    name: "Aman",
-    username: "aman",
-    content: "Building Twitter Clone ❤️",
-    image: "https://i.pravatar.cc/150?img=2",
-    postImage: "https://picsum.photos/600/350?random=2",
-  },
-  {
-    id: 3,
-    name: "Priya",
-    username: "priya",
-    content: "Tailwind CSS is awesome 😍",
-    image: "https://i.pravatar.cc/150?img=3",
-    postImage: "https://picsum.photos/600/350?random=3",
-  },
-];
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Feed() {
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const { user } = useAuth();
+  const { token } = useAuth();
 
-  const addPost = (text, image) => {
-    // Agar text bhi nahi aur image bhi nahi hai to post mat banao
-    if (!text.trim() && !image) return;
-
-    const newPost = {
-      id: Date.now(),
-      name: user?.displayName || "Anonymous",
-      username: user?.username || "anonymous",
-      content: text,
-      image: user?.avatarUrl || "https://i.pravatar.cc/150?img=1",
-      postImage: image || null,
-      isOwnPost: true,
+  useEffect(() => {
+    const fetchFeed = async () => {
+      if (!token) return;
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const { data } = await axios.get("/api/posts/feed", config);
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching feed posts:", error);
+        toast.error("Failed to load feed");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    setPosts([newPost, ...posts]);
+    fetchFeed();
+  }, [token]);
+
+  const addPost = async (text, image) => {
+    if (!text.trim() && !image) return;
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/posts",
+        {
+          content: text,
+          images: image ? [image] : [],
+        },
+        config
+      );
+
+      setPosts((prevPosts) => [data, ...prevPosts]);
+      toast.success("Post published!");
+    } catch (error) {
+      console.error("Error creating post:", error);
+      toast.error("Failed to post");
+    }
   };
 
   const filteredPosts = posts.filter(
     (post) =>
-      post.name.toLowerCase().includes(search.toLowerCase()) ||
-      post.content.toLowerCase().includes(search.toLowerCase()),
+      post.author?.displayName?.toLowerCase().includes(search.toLowerCase()) ||
+      post.author?.username?.toLowerCase().includes(search.toLowerCase()) ||
+      post.content?.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="space-y-6 animate-pulse mt-4">
+        <div className="h-10 bg-gray-200 dark:bg-gray-800 rounded-full w-full"></div>
+        <div className="h-32 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full"></div>
+        <div className="h-40 bg-gray-200 dark:bg-gray-800 rounded-2xl w-full"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -65,18 +84,24 @@ function Feed() {
         placeholder="Search posts..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full p-3 rounded-full bg-gray-100 dark:bg-gray-900 outline-none text-black dark:text-white mb-4"
+        className="w-full p-3 rounded-full bg-gray-100 dark:bg-gray-900 outline-none text-black dark:text-white mb-4 focus:ring-2 focus:ring-blue-500"
       />
 
       <CreatePost addPost={addPost} />
 
-      {filteredPosts.map((post) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          onDelete={(id) => setPosts(posts.filter((p) => p.id !== id))}
-        />
-      ))}
+      {filteredPosts.length === 0 ? (
+        <div className="text-center py-10 text-gray-500 dark:text-gray-400">
+          No posts found.
+        </div>
+      ) : (
+        filteredPosts.map((post) => (
+          <PostCard
+            key={post._id}
+            post={post}
+            onDelete={(id) => setPosts(posts.filter((p) => p._id !== id))}
+          />
+        ))
+      )}
     </>
   );
 }

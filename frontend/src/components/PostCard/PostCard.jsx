@@ -59,25 +59,30 @@ function PostCard({ post, onDelete }) {
     }
   };
 
+  const avatar = post.author?.avatarUrl || post.image || "https://i.pravatar.cc/150?img=1";
+  const name = post.author?.displayName || post.name || "Anonymous";
+  const username = post.author?.username || post.username || "anonymous";
+  const postImage = post.images?.[0] || post.postImage;
+
   return (
     <div className="border-b border-gray-200 dark:border-gray-800 p-5">
       <div className="flex gap-4">
         <img
-          src={post.image}
-          alt={post.name}
-          className="w-12 h-12 rounded-full"
+          src={avatar}
+          alt={name}
+          className="w-12 h-12 rounded-full object-cover"
         />
 
         <div className="flex-1">
-          <h2 className="font-bold">{post.name}</h2>
+          <h2 className="font-bold">{name}</h2>
 
-          <p className="text-gray-600 dark:text-gray-400">@{post.username}</p>
+          <p className="text-gray-600 dark:text-gray-400">@{username}</p>
 
           <p className="mt-3">{post.content}</p>
 
-          {post.postImage && (
+          {postImage && (
             <img
-              src={post.postImage}
+              src={postImage}
               alt="Post"
               className="mt-4 w-full rounded-2xl border border-gray-200 dark:border-gray-800 object-cover max-h-[450px]"
             />
