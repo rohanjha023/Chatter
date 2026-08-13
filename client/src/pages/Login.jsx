@@ -29,22 +29,22 @@ function Login() {
       <form onSubmit={handleSubmit} className="w-full max-w-sm bg-app-soft border border-app rounded-2xl p-8">
         <h1 className="text-2xl font-bold mb-6 text-center">Log in to SocialFeed</h1>
 
-        <label className="block text-sm mb-1 text-gray-400">Email</label>
+        <label className="block text-sm mb-1 text-gray-600 dark:text-gray-400">Email</label>
         <input
           type="email"
           required
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className="w-full mb-4 p-3 rounded-lg bg-gray-900 border border-gray-700 outline-none focus:border-blue-500"
+          className="w-full mb-4 p-3 rounded-lg bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 outline-none focus:border-blue-500 text-black dark:text-white"
         />
 
-        <label className="block text-sm mb-1 text-gray-400">Password</label>
+        <label className="block text-sm mb-1 text-gray-600 dark:text-gray-400">Password</label>
         <input
           type="password"
           required
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
-          className="w-full mb-6 p-3 rounded-lg bg-gray-900 border border-gray-700 outline-none focus:border-blue-500"
+          className="w-full mb-6 p-3 rounded-lg bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 outline-none focus:border-blue-500 text-black dark:text-white"
         />
 
         <button

@@ -78,47 +78,47 @@ function Register() {
         <h1 className="text-2xl font-bold text-center">Create your account</h1>
 
         <div>
-          <label className="block text-sm mb-1 text-gray-400">Full name</label>
+          <label className="block text-sm mb-1 text-gray-600 dark:text-gray-400">Full name</label>
           <input
             required
             value={form.displayName}
             onChange={handleChange("displayName")}
-            className={`w-full p-3 rounded-lg bg-gray-900 border outline-none focus:border-blue-500 ${errors.displayName ? 'border-red-500' : 'border-gray-700'}`}
+            className={`w-full p-3 rounded-lg bg-white dark:bg-gray-900 border outline-none focus:border-blue-500 text-black dark:text-white ${errors.displayName ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'}`}
           />
           {errors.displayName && <p className="text-red-500 text-xs mt-1 pl-1">{errors.displayName}</p>}
         </div>
 
         <div>
-          <label className="block text-sm mb-1 text-gray-400">Username</label>
+          <label className="block text-sm mb-1 text-gray-600 dark:text-gray-400">Username</label>
           <input
             required
             value={form.username}
             onChange={handleChange("username")}
-            className={`w-full p-3 rounded-lg bg-gray-900 border outline-none focus:border-blue-500 ${errors.username ? 'border-red-500' : 'border-gray-700'}`}
+            className={`w-full p-3 rounded-lg bg-white dark:bg-gray-900 border outline-none focus:border-blue-500 text-black dark:text-white ${errors.username ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'}`}
           />
           {errors.username && <p className="text-red-500 text-xs mt-1 pl-1">{errors.username}</p>}
         </div>
 
         <div>
-          <label className="block text-sm mb-1 text-gray-400">Email</label>
+          <label className="block text-sm mb-1 text-gray-600 dark:text-gray-400">Email</label>
           <input
             type="email"
             required
             value={form.email}
             onChange={handleChange("email")}
-            className={`w-full p-3 rounded-lg bg-gray-900 border outline-none focus:border-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-700'}`}
+            className={`w-full p-3 rounded-lg bg-white dark:bg-gray-900 border outline-none focus:border-blue-500 text-black dark:text-white ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'}`}
           />
           {errors.email && <p className="text-red-500 text-xs mt-1 pl-1">{errors.email}</p>}
         </div>
 
         <div>
-          <label className="block text-sm mb-1 text-gray-400">Password</label>
+          <label className="block text-sm mb-1 text-gray-600 dark:text-gray-400">Password</label>
           <input
             type="password"
             required
             value={form.password}
             onChange={handleChange("password")}
-            className={`w-full p-3 rounded-lg bg-gray-900 border outline-none focus:border-blue-500 ${errors.password ? 'border-red-500' : 'border-gray-700'}`}
+            className={`w-full p-3 rounded-lg bg-white dark:bg-gray-900 border outline-none focus:border-blue-500 text-black dark:text-white ${errors.password ? 'border-red-500' : 'border-gray-300 dark:border-gray-700'}`}
           />
           {errors.password && <p className="text-red-500 text-xs mt-1 pl-1">{errors.password}</p>}
         </div>
