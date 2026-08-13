@@ -86,7 +86,7 @@ function Feed() {
     const { data } = await api.post("/posts", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    setPosts((prev) => [data, ...prev]);
+    setPosts((prev) => (prev.some((p) => p._id === data._id) ? prev : [data, ...prev]));
   };
 
   // Delete Post
