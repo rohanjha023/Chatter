@@ -1,5 +1,9 @@
-# Global ignores for switching between frontend and backend branches
-backend/node_modules
-frontend/node_modules
-backend/.env
-frontend/.env
+# Ignored directories for unified monorepo
+client/node_modules
+server/node_modules
+client/.env
+server/.env
+client/dist
+client/.vite
+server/uploads
+social-media-feed-complete.zip

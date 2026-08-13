@@ -1,0 +1,39 @@
+/* src/index.css
+   Tailwind v4 doesn't need a tailwind.config.js for basic usage — the
+   @import below pulls in all of Tailwind's utility classes automatically
+   (the @tailwindcss/vite plugin in vite.config.js handles the build step). */
+@import "tailwindcss";
+
+/* Dark mode is toggled by adding/removing the "dark" class on <html>
+   (see context/AuthContext.jsx -> applyTheme()). These CSS variables let
+   every component just use bg-app / text-app / border-app instead of
+   hard-coding dark: variants everywhere. */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-soft: #f7f9f9;
+  --color-text: #0f1419;
+  --color-border: #e1e8ed;
+}
+
+html.dark {
+  --color-bg: #000000;
+  --color-bg-soft: #111827;
+  --color-text: #ffffff;
+  --color-border: #1f2937;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Small utility classes used throughout the app instead of repeating
+   dark: variants on every element. */
+.bg-app { background-color: var(--color-bg); }
+.bg-app-soft { background-color: var(--color-bg-soft); }
+.text-app { color: var(--color-text); }
+.border-app { border-color: var(--color-border); }
+
+/* Hide scrollbar on the feed column for a cleaner look, purely cosmetic. */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background-color: #4b5563; border-radius: 9999px; }
