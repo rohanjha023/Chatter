@@ -10,9 +10,12 @@ const { sendPushToUser } = require("../utils/push");
 // @access  Private
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username }).select(
-      "-password -pushSubscription -stripeCustomerId -stripeConnectAccountId"
-    );
+    const user = await User.findOne({ username: req.params.username })
+      .select(
+        "-password -pushSubscription -stripeCustomerId -stripeConnectAccountId"
+      )
+      .populate("following", "username displayName avatarUrl")
+      .populate("followers", "username displayName avatarUrl");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (error) {
