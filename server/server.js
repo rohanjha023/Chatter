@@ -25,6 +25,13 @@ const { initSocket } = require("./socket");
 const app = express();
 const httpServer = http.createServer(app);
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://chatter-chatter.netlify.app",
+].filter(Boolean).map((origin) => origin.replace(/\/$/, ""));
+
 // --- 2. Database ---
 connectDB();
 
@@ -32,7 +39,22 @@ connectDB();
 initSocket(httpServer);
 
 // --- Middleware ---
-app.use(cors({ origin: process.env.CLIENT_URL || "*" }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const normalizedOrigin = origin ? origin.replace(/\/$/, "") : origin;
+      if (!origin || allowedOrigins.includes(normalizedOrigin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 
 // Serve locally-uploaded images (only used when Cloudinary isn't configured —
