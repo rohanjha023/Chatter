@@ -5,7 +5,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: "https://chatter-backend-dc5n.onrender.com/api",
 });
 
 api.interceptors.request.use((config) => {
@@ -14,6 +14,8 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
+
+  
 });
 
 // If the backend says our token is invalid/expired, log the user out
