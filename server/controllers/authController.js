@@ -41,10 +41,17 @@ const registerUser = async (req, res) => {
 // @access  Public
 const loginUser = async (req, res) => {
   try {
+    console.log("LOGIN CONTROLLER => incoming request body:", req.body);
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
+    console.log("LOGIN CONTROLLER => found user:", user ? { id: user._id.toString(), email: user.email } : null);
+
     if (user && (await user.matchPassword(password))) {
+      const token = generateToken(user._id);
+      console.log("LOGIN CONTROLLER => login successful for user:", user._id.toString());
+      console.log("LOGIN CONTROLLER => generated token prefix:", token.slice(0, 20));
+
       res.json({
         _id: user._id,
         username: user.username,
@@ -52,12 +59,16 @@ const loginUser = async (req, res) => {
         displayName: user.displayName,
         avatarUrl: user.avatarUrl,
         themePreference: user.themePreference,
-        token: generateToken(user._id),
+        token,
       });
     } else {
+      console.log("LOGIN CONTROLLER => authentication failed");
+      console.log("LOGIN CONTROLLER => email provided:", email || "NO_EMAIL");
+      console.log("LOGIN CONTROLLER => password provided:", password ? "***present***" : "NO_PASSWORD");
       res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
+    console.error("LOGIN CONTROLLER => unexpected error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

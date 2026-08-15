@@ -32,6 +32,25 @@ const allowedOrigins = [
   "https://chatter-chatter.netlify.app",
 ].filter(Boolean).map((origin) => origin.replace(/\/$/, ""));
 
+app.use((req, res, next) => {
+  const origin = req.headers.origin || "NO_ORIGIN";
+  const authHeader = req.headers.authorization || "NO_AUTH_HEADER";
+
+  console.log("\n=== REQUEST START ===");
+  console.log("METHOD:", req.method);
+  console.log("URL:", req.originalUrl);
+  console.log("ORIGIN:", origin);
+  console.log("HOST:", req.headers.host);
+  console.log("USER-AGENT:", req.headers["user-agent"] || "N/A");
+  console.log("AUTH HEADER:", authHeader === "NO_AUTH_HEADER" ? authHeader : authHeader.slice(0, 30) + "...");
+
+  if (req.method === "OPTIONS") {
+    console.log("OPTIONS PRE-FLIGHT REQUEST");
+  }
+
+  next();
+});
+
 // --- 2. Database ---
 connectDB();
 
@@ -43,11 +62,16 @@ app.use(
   cors({
     origin: (origin, callback) => {
       const normalizedOrigin = origin ? origin.replace(/\/$/, "") : origin;
+      console.log("CORS CHECK -> request origin:", origin);
+      console.log("CORS CHECK -> allowed origins:", allowedOrigins);
+      console.log("CORS CHECK -> normalized origin:", normalizedOrigin);
+
       if (!origin || allowedOrigins.includes(normalizedOrigin)) {
         callback(null, true);
         return;
       }
 
+      console.log("CORS BLOCKED for origin:", origin);
       callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
@@ -76,7 +100,11 @@ app.use("/api/notifications", require("./routes/notificationRoutes"));
 // Fallback error handler — catches anything thrown/rejected inside routes
 // that wasn't already wrapped in its own try/catch.
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error("=== ERROR HANDLER ===");
+  console.error("METHOD:", req.method);
+  console.error("URL:", req.originalUrl);
+  console.error("ORIGIN:", req.headers.origin || "NO_ORIGIN");
+  console.error("ERROR STACK:", err.stack);
   res.status(500).json({ message: "Something went wrong on the server", error: err.message });
 });
 
